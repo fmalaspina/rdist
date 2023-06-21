@@ -1,0 +1,18 @@
+[package]
+name = "distributor"
+version = "0.1.0"
+edition = "2021"
+authors = ["fernando malaspina <f_malaspina@hotmail.com>"]
+description = "Simple software distribution software in rust."
+keywords = ["distribution", "deploy", "copy"]
+
+[lib]
+name = "service"
+path = "src/lib.rs"
+
+[[bin]]
+name = "rdist"
+path = "src/bin.rs"
+
+[dependencies]
+clap = { version = "4.2.5", features = ["derive"] }
