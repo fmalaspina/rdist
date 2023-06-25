@@ -1,0 +1,29 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"type": "shell",
+			"windows": {
+        		"command": "cargo-watch -q -c -x test",
+      		},
+			"group": "build",
+			"label": "rust: cargo watch tests"
+		},
+		{
+			"type": "shell",
+			"windows": {
+        		"command": "cargo-watch -q -c -x 'run -q'",
+      		},
+			"group": "build",
+			"label": "rust: cargo watch run"
+		},
+		{
+			"type": "shell",
+			"windows": {
+        		"command": "cargo-watch -q -c -x 'run -q' -x test",
+      		},
+			"group": "build",
+			"label": "rust: cargo watch run & test"
+		}
+	]
+}
