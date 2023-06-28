@@ -108,11 +108,9 @@ fn main() {
     }
 }
 
-
-
 fn send_command(destination: String, message_bytes: Vec<u8>, message_len: [u8; 4]) {
     thread::spawn(move || {
-        let mut stream = TcpStream::connect(destination).expect("Failed to connect");
+        let mut stream = TcpStream::connect(&destination).expect("Failed to connect");
 
         stream
             .write(&message_len)
@@ -139,7 +137,7 @@ fn send_command(destination: String, message_bytes: Vec<u8>, message_len: [u8; 4
         let response_string = String::from_utf8_lossy(&response_buffer);
 
         // Print the response
-        println!("Response: {}", response_string);
+        println!("Response from {}:\n{}", destination, response_string);
 
         stream
             .shutdown(std::net::Shutdown::Write)
