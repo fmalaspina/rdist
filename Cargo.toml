@@ -1,9 +1,9 @@
 [package]
-name = "distributor"
+name = "rdist"
 version = "0.1.0"
 edition = "2021"
 authors = ["fernando malaspina <f_malaspina@hotmail.com>"]
-description = "Simple software distribution software client in rust for rdist daemon."
+description = "Simple software distribution software client for rdistd daemon."
 keywords = ["distribution", "deploy", "copy"]
 
 [lib]

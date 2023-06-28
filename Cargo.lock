@@ -121,17 +121,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "acbf1af155f9b9ef647e42cdc158db4b64a1b61f743629225fde6f3e0be2a7c7"
 
 [[package]]
-name = "distributor"
-version = "0.1.0"
-dependencies = [
- "bincode",
- "clap",
- "serde",
- "serde_json",
- "socket2",
-]
-
-[[package]]
 name = "errno"
 version = "0.3.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -227,6 +216,17 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "1b9ab9c7eadfd8df19006f1cf1a4aed13540ed5cbc047010ece5826e10825488"
 dependencies = [
  "proc-macro2",
+]
+
+[[package]]
+name = "rdist"
+version = "0.1.0"
+dependencies = [
+ "bincode",
+ "clap",
+ "serde",
+ "serde_json",
+ "socket2",
 ]
 
 [[package]]
