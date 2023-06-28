@@ -28,6 +28,7 @@ enum Commands {
         /// Target file path
         #[arg(short, long, required = true)]
         target: String,
+
     },
     Run {
         /// Target node IP address to send the file to
@@ -37,16 +38,23 @@ enum Commands {
         #[clap(short, long, required = true)]
         command: String,
     },
+    Rollback {
+        #[clap(short, long, value_name = "IP:PORT", required = true,value_parser = valid_ip_port)]
+        destinations: Vec<String>,
+        #[arg(short, long, required = true)]
+        rollback_path: String,
+    },
 }
 #[derive(Serialize, Deserialize)]
 struct Message {
-    data: Vec<u8>,
+    // data: Vec<u8>,
     command: Command,
 }
 #[derive(Serialize, Deserialize)]
 enum Command {
-    Copy { file_path: String },
+    Copy { file_path: String, data: Vec<u8>},
     Run { command: String },
+    Rollback { file_path: String },
 }
 
 fn main() {
@@ -57,7 +65,8 @@ fn main() {
         Some(Commands::Copy {
             destinations: ip_ports,
             source,
-            target,
+            target
+            
         }) => {
             // Read the file into a byte vector
             let mut file_content = Vec::new();
@@ -66,9 +75,10 @@ fn main() {
                 .expect("Error reading file");
 
             let message = Message {
-                data: file_content,
+                
                 command: Command::Copy {
                     file_path: String::from(&target),
+                    data: file_content
                 },
             };
 
@@ -86,10 +96,27 @@ fn main() {
             command,
         }) => {
             let message = Message {
-                data: vec![],
+                
                 command: Command::Run {
                     command: String::from(&command),
                 },
+            };
+
+            let message_bytes = bincode::serialize(&message).unwrap();
+            let message_len = (message_bytes.len() as u32).to_be_bytes();
+            for destination in ip_ports.into_iter() {
+                let message_bytes_cloned = message_bytes.clone();
+                let message_len_cloned = message_len.clone();
+                send_command(destination, message_bytes_cloned, message_len_cloned);
+            }
+        }
+        Some(Commands::Rollback {
+            destinations: ip_ports,
+            rollback_path
+        }) => {
+            let message = Message {
+               
+                command: Command::Rollback {file_path: rollback_path},
             };
 
             let message_bytes = bincode::serialize(&message).unwrap();
